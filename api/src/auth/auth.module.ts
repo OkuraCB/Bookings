@@ -10,12 +10,12 @@ import { PrismaService } from 'src/prisma.service';
 
 @Module({
   imports: [
-    UsersModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '24hrs' },
     }),
+    UsersModule,
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, PrismaService],
   exports: [AuthService],
