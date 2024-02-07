@@ -37,3 +37,74 @@ model User {
 
   @@map("users")
 }
+
+model People {
+  id        Int       @id @default(autoincrement())
+
+  createdAt DateTime  @default(now()) @map("create_time") @db.Timestamp(0)
+  updatedAt DateTime? @map("update_time") @db.Timestamp(0)
+
+  name      String    @db.VarChar(100)
+  email     String    @unique(map: "email_UNIQUE") @db.VarChar(300)
+
+  meetings Meeting[]
+
+  @@map("people")
+}
+
+model Representative {
+  id        Int       @id @default(autoincrement())
+
+  createdAt DateTime  @default(now()) @map("create_time") @db.Timestamp(0)
+  updatedAt DateTime? @map("update_time") @db.Timestamp(0)
+
+  name      String    @db.VarChar(100)
+  email     String    @unique(map: "email_UNIQUE") @db.VarChar(300)
+  customer  String    @db.VarChar(100)
+
+  meetings Meeting[]
+
+  @@map("representatives")
+}
+
+model Rooms {
+  id        Int       @id @default(autoincrement())
+
+  createdAt DateTime  @default(now()) @map("create_time") @db.Timestamp(0)
+  updatedAt DateTime? @map("update_time") @db.Timestamp(0)
+
+  name      String    @db.VarChar(100)
+  capacity  Int
+
+  meetings Meeting[]
+
+  @@map("rooms")
+}
+
+model Meeting {
+  id        Int       @id @default(autoincrement())
+
+  createdAt DateTime  @default(now()) @map("create_time") @db.Timestamp(0)
+  updatedAt DateTime? @map("update_time") @db.Timestamp(0)
+
+  name      String
+  description   String?
+  start         DateTime
+  end           DateTime
+  roomId        Int?
+
+  customerRepresentative  Representative[] 
+  invited                 People[]
+  room                    Rooms? @relation(fields: [roomId], references: [id], map: "fk_meeting_room1")
+
+  gravity       MeetingGravity
+
+  @@map("meeting")
+}
+
+enum MeetingGravity {
+  mandatory      @map("Mandatory")
+  optional          @map("Optional")
+
+  @@map("meeting_gravity")
+}
