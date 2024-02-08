@@ -6,13 +6,15 @@ import { CreateUserDto } from '../users/dto/body/createUser.dto';
 import { LoginDto } from './dto/body/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from 'src/users/dto/expose/user.dto';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Tokens } from './tokens.entity';
+import { Users } from 'src/users/users.entity';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject('TOKEN_REPOSITORY') private tokenRepo: Repository<Tokens>,
+    @Inject('USERS_REPOSITORY') private userRepo: Repository<Users>,
     private prisma: PrismaService,
     private jwtService: JwtService,
   ) {}

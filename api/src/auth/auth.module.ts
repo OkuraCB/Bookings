@@ -9,6 +9,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { PrismaService } from 'src/prisma.service';
 import { DatabaseModule } from 'src/database/database.module';
 import { tokenProvider } from './tokens.provider';
+import { usersProvider } from 'src/users/users.provider';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { tokenProvider } from './tokens.provider';
   ],
   providers: [
     ...tokenProvider,
+    ...usersProvider,
     AuthService,
     LocalStrategy,
     JwtStrategy,

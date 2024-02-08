@@ -5,7 +5,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Meetingtopeople } from '../meetings/Meetingtopeople';
+import { Meetingtopeople } from '../meetings/meetingToPeople.entity';
 
 @Index('email_UNIQUE', ['email'], { unique: true })
 @Entity('people', { schema: 'bookings' })

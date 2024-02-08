@@ -7,8 +7,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Meetingtopeople } from './Meetingtopeople';
-import { Meetingtorepresentative } from './Meetingtorepresentative';
+import { Meetingtopeople } from './meetingToPeople.entity';
+import { Meetingtorepresentative } from './meetingToRepresentative.entity';
 import { Rooms } from '../rooms/rooms.entity';
 
 @Index('fk_meeting_room1', ['roomId'], {})
