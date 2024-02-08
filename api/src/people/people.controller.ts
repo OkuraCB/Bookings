@@ -18,10 +18,7 @@ import { CreatePeopleDto } from './dto/body/createPeople.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('people')
 export class PeopleController {
-  constructor(
-    private peopleService: PeopleService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private peopleService: PeopleService) {}
 
   @Get()
   @Serialize(PeopleDto)

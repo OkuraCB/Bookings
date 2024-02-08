@@ -8,6 +8,7 @@ import {
   Body,
   Post,
   Patch,
+  Inject,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -16,11 +17,14 @@ import { UsersService } from './users.service';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/expose/user.dto';
 import { CreateUserDto } from './dto/body/createUser.dto';
+import { Repository } from 'typeorm';
+import { Rooms } from 'src/rooms/rooms.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
   constructor(
+    @Inject('USERS_REPOSITORY') private roomService: Repository<Rooms>,
     private userService: UsersService,
     private jwtService: JwtService,
   ) {}

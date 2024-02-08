@@ -1,10 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateRoomDto } from './dto/body/createRoom.dto';
+import { Repository } from 'typeorm';
+import { Rooms } from './rooms.entity';
 
 @Injectable()
 export class RoomService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @Inject('ROOMS_REPOSITORY') private roomsRepo: Repository<Rooms>,
+    private prisma: PrismaService,
+  ) {}
 
   async list() {
     const rooms = await this.prisma.rooms.findMany();

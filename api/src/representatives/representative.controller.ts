@@ -18,10 +18,7 @@ import { CreateRepresentativeDto } from './dto/body/createRepresentative.dto';
 @UseGuards(JwtAuthGuard)
 @Controller('representative')
 export class RepresentativeController {
-  constructor(
-    private representativeService: RepresentativeService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private representativeService: RepresentativeService) {}
 
   @Get()
   @Serialize(RepresentativeDto)
@@ -44,5 +41,11 @@ export class RepresentativeController {
   @Serialize(RepresentativeDto)
   async edit(@Param('id') id: number, @Body() body: CreateRepresentativeDto) {
     return this.representativeService.edit(id, body);
+  }
+
+  @Get('/:customer')
+  @Serialize(RepresentativeDto)
+  async findByCustomer(@Param('customer') customer: string) {
+    return this.representativeService.findByCustomer(customer);
   }
 }

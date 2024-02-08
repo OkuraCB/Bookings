@@ -1,10 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { CreateRepresentativeDto } from './dto/body/createRepresentative.dto';
+import { Representatives } from './representative.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class RepresentativeService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    @Inject('REPRESENTATIVE_REPOSITORY')
+    private representativeRepo: Repository<Representatives>,
+    private prisma: PrismaService,
+  ) {}
 
   async list() {
     const representatives = await this.prisma.representative.findMany();
@@ -20,17 +26,27 @@ export class RepresentativeService {
   }
 
   async add(body: CreateRepresentativeDto) {
-    const newRepresentative = await this.prisma.people.create({ data: body });
+    const newRepresentative = await this.prisma.representative.create({
+      data: body,
+    });
 
     return newRepresentative;
   }
 
   async edit(id: number, body: CreateRepresentativeDto) {
-    const editedRepresentative = await this.prisma.people.update({
+    const editedRepresentative = await this.prisma.representative.update({
       where: { id },
       data: body,
     });
 
     return editedRepresentative;
+  }
+
+  async findByCustomer(customer: string) {
+    const representatives = await this.prisma.representative.findMany({
+      where: { customer },
+    });
+
+    return representatives;
   }
 }

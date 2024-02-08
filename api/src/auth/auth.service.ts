@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma.service';
 import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
@@ -6,10 +6,16 @@ import { CreateUserDto } from '../users/dto/body/createUser.dto';
 import { LoginDto } from './dto/body/login.dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserDto } from 'src/users/dto/expose/user.dto';
+import { Repository } from 'typeorm';
+import { Tokens } from './tokens.entity';
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService, private jwtService: JwtService) {}
+  constructor(
+    @Inject('TOKEN_REPOSITORY') private tokenRepo: Repository<Tokens>,
+    private prisma: PrismaService,
+    private jwtService: JwtService,
+  ) {}
 
   async validatePassword(pss: string, password: string) {
     return bcrypt.compare(pss, password);

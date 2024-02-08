@@ -97,7 +97,7 @@ model Meeting {
   invited                 People[]
   room                    Rooms? @relation(fields: [roomId], references: [id], map: "fk_meeting_room1")
 
-  gravity       MeetingGravity
+  gravity       String
 
   @@map("meeting")
 }
